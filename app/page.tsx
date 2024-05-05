@@ -23,18 +23,24 @@ export default function Home() {
     []
   );
   const sheets = useMemo(() => {
-    const size = +gridSize;
+    const size = isNaN(gridSize) ? 5 : +(gridSize ?? 5);
+    const sheetsCount = isNaN(numberSheets) ? 5 : +(numberSheets ?? 5);
     const splitQuestions = questions
       .split("\n")
       .map((question) => question.trim());
-    return new Array(+numberSheets).fill(true).map(() => {
-      const indices: (number | string)[] = new Array(size * size - 1)
+    return new Array(sheetsCount).fill(true).map(() => {
+      let arraySize = size * size - 1;
+      if (splitQuestions.length > arraySize) {
+        arraySize = splitQuestions.length;
+      }
+      const indices: (number | string)[] = new Array(arraySize)
         .fill(true)
         .map((_, i) => i);
 
-      const shuffled = shuffle(indices);
+      const shuffled = shuffle(indices).slice(0, size * size - 1);
       const middleIndex = Math.floor(size / 2) * size + Math.floor(size / 2);
       shuffled.splice(middleIndex, 0, freeSpaceText);
+
       const questions = shuffled.map((item) =>
         typeof item === "number" ? splitQuestions[item] : item
       );
