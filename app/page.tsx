@@ -33,7 +33,6 @@ export default function Home() {
         .map((_, i) => i);
 
       const shuffled = shuffle(indices);
-      console.log(shuffled);
       const middleIndex = Math.floor(size / 2) * size + Math.floor(size / 2);
       shuffled.splice(middleIndex, 0, freeSpaceText);
       const questions = shuffled.map((item) =>
@@ -158,8 +157,8 @@ export default function Home() {
             Usage
           </dt>
           <dd className="my-2 text-base leading-7 text-gray-600">
-            Just print the page using you browser's print feature and the bingo
-            sheets will be generated.
+            Just print the page using you browser&apos;s print feature and the
+            bingo sheets will be generated.
           </dd>
           <button
             onClick={handlePrint}
@@ -171,13 +170,14 @@ export default function Home() {
       </div>
       {sheets.map((rows, si) => (
         <div
+          key={si}
           className="w-full py-16 max-w-prose hidden print:block"
           style={{ pageBreakAfter: "always" }}
         >
           <div className="w-1/3 h-12 border-b border-black" />
           <dd className="text-xs mb-4 mt-1">Name</dd>
 
-          <table key={si} className="w-full">
+          <table className="w-full">
             <tbody>
               {rows.map((cells, ri) => (
                 <tr key={ri}>
